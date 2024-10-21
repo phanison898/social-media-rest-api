@@ -15,7 +15,9 @@ export const signup = async (req, res) => {
       profilePicture,
     });
     await newUser.save();
-    res.status(201).json(newUser);
+
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Error signing up user", error });
   }
