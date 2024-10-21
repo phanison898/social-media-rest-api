@@ -13,5 +13,11 @@ connectDB();
 app.use("/api/auth", userRoutes);
 app.use("/api/posts", postRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Export the app for testing
+export default app;
+
+// Start the server
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
