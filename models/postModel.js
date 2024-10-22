@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 const postSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    unique: true,
+    default: uuidv4,
+  },
   userId: { type: String, required: true },
   description: { type: String },
   mediaType: { type: String, enum: ["image", "video"], required: true },

@@ -14,8 +14,8 @@ const router = express.Router();
 router.post("/", authMiddleware, createPost);
 router.get("/", authMiddleware, getPosts);
 router.get("/:id", authMiddleware, getPost);
-router.put("/:id", authMiddleware, updatePost);
+router.patch("/:id", authMiddleware, updatePost);
 router.delete("/:id", authMiddleware, deletePost);
-router.put("/:postId/like", authMiddleware, likeOrUnLikeAPost);
+router.patch("/:postId/like", authMiddleware, likeOrUnLikeAPost);
 
 export default router;

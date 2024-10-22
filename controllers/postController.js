@@ -4,7 +4,7 @@ import Post from "../models/postModel.js";
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
-    res.json(posts);
+    res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving posts", error });
   }
@@ -35,9 +35,9 @@ export const createPost = async (req, res) => {
 export const getPost = async (req, res) => {
   const { id } = req.params;
   try {
-    const post = await Post.findOne({ _id: id });
+    const post = await Post.findOne({ id });
     if (!post) return res.status(404).json({ message: "Post not found" });
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving post", error });
   }
@@ -49,11 +49,11 @@ export const updatePost = async (req, res) => {
   const { description, mediaType, mediaUrl } = req.body;
   try {
     const post = await Post.findOneAndUpdate(
-      { _id: id },
+      { id },
       { description, mediaType, mediaUrl },
       { new: true }
     );
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: "Error updating post", error });
   }
@@ -63,7 +63,7 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   const { id } = req.params;
   try {
-    await Post.findOneAndDelete({ _id: id });
+    await Post.findOneAndDelete({ id });
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: "Error deleting post", error });
@@ -77,7 +77,7 @@ export const likeOrUnLikeAPost = async (req, res) => {
 
   try {
     // Find post by ID
-    const post = await Post.findById({ _id: postId });
+    const post = await Post.findOne({ id: postId }); // this peice of shit costed me one hour. use findOne() never use findById()
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
@@ -87,16 +87,16 @@ export const likeOrUnLikeAPost = async (req, res) => {
     if (userIndex > -1) {
       // User has already liked the post, so remove the like
       post.likes.splice(userIndex, 1); // Remove userId from likes array
+      await post.save();
       res.status(200).json({ message: "Post unliked successfully", post });
     } else {
       // User has not liked the post yet, so add the like
       post.likes.push(userId); // Add userId to likes array
+      await post.save();
       res.status(200).json({ message: "Post liked successfully", post });
     }
-
-    // Save the updated post
-    await post.save();
   } catch (error) {
+    console.error("Error liking/unliking the post:", error);
     res.status(500).json({ message: "Error liking/unliking the post", error });
   }
 };

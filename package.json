@@ -10,7 +10,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles --verbose",
     "start": "nodemon app.js"
   },
   "author": "",
@@ -22,6 +22,7 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
+    "social-media-api": "file:",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
