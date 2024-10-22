@@ -8,6 +8,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use("/", () => ({ message: "Welcome to the Social Media API!" }));
 app.use("/api/auth", userRoutes);
 app.use("/api/posts", postRoutes);
 
