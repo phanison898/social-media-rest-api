@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import { AvatarGenerator } from "random-avatar-generator";
+
+const generator = new AvatarGenerator();
 
 const userSchema = new mongoose.Schema({
   id: {
@@ -11,7 +14,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  profilePicture: { type: String },
+  profilePicture: { type: String, default: generator.generateRandomAvatar() },
 });
 
 const User = mongoose.model("User", userSchema);

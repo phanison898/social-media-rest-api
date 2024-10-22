@@ -1,15 +1,14 @@
 import request from "supertest";
 import mongoose from "mongoose";
-import app from "../app";
 import jwt from "jsonwebtoken";
 import { faker } from "@faker-js/faker";
+import app from "../app";
 import connectDB from "../config/db";
 
 const firstName = faker.person.firstName();
 const lastName = faker.person.lastName();
 const email = faker.internet.email();
 const password = faker.internet.password();
-const profilePicture = "http://example.com/profile.jpg";
 
 let token;
 let userId;
@@ -34,7 +33,6 @@ describe("User routes /api/auth/", () => {
       lastName,
       email,
       password,
-      profilePicture,
     });
 
     expect(res.statusCode).toEqual(201);
@@ -60,8 +58,8 @@ describe("User routes /api/auth/", () => {
       .patch(`/api/auth/${userId}`)
       .set("Authorization", `Bearer ${token}`)
       .send({
-        firstName: "phanison",
-        lastName: "potturi",
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
       });
 
     expect(res.statusCode).toEqual(200);
