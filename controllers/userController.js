@@ -16,7 +16,7 @@ export const signup = async (req, res) => {
     });
     await newUser.save();
 
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.status(201).json({ user: newUser, token });
   } catch (error) {
     res.status(500).json({ message: "Error signing up user", error });
@@ -44,7 +44,7 @@ export const login = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving users", error });
   }
@@ -54,9 +54,9 @@ export const getUsers = async (req, res) => {
 export const getUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ id });
     if (!user) return res.status(404).json({ message: "User not found" });
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving user", error });
   }
@@ -68,11 +68,11 @@ export const updateUser = async (req, res) => {
   const { firstName, lastName, profilePicture } = req.body;
   try {
     const user = await User.findOneAndUpdate(
-      { _id: id },
+      { id },
       { firstName, lastName, profilePicture },
       { new: true }
     );
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error updating user", error });
   }
@@ -82,7 +82,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
-    await User.findOneAndDelete({ _id: id });
+    await User.findOneAndDelete({ id });
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: "Error deleting user", error });

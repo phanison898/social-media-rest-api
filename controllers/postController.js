@@ -72,7 +72,7 @@ export const deletePost = async (req, res) => {
 
 // 5. Like or Unlike a Post
 export const likeOrUnLikeAPost = async (req, res) => {
-  const { postId } = req.params;
+  const { postId, action } = req.params;
   const { userId } = req.body;
 
   try {
@@ -84,16 +84,16 @@ export const likeOrUnLikeAPost = async (req, res) => {
     // Check if user has already liked the post
     const userIndex = post.likes.indexOf(userId);
 
-    if (userIndex > -1) {
-      // User has already liked the post, so remove the like
+    if (action == "like" && !(userIndex > -1)) {
+      post.likes.push(userId);
+      await post.save();
+      res.status(200).json({ message: "Post liked successfully", post });
+    }
+
+    if (action == "unlike" && userIndex > -1) {
       post.likes.splice(userIndex, 1); // Remove userId from likes array
       await post.save();
       res.status(200).json({ message: "Post unliked successfully", post });
-    } else {
-      // User has not liked the post yet, so add the like
-      post.likes.push(userId); // Add userId to likes array
-      await post.save();
-      res.status(200).json({ message: "Post liked successfully", post });
     }
   } catch (error) {
     console.error("Error liking/unliking the post:", error);

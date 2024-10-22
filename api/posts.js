@@ -16,6 +16,6 @@ router.get("/", authMiddleware, getPosts);
 router.get("/:id", authMiddleware, getPost);
 router.patch("/:id", authMiddleware, updatePost);
 router.delete("/:id", authMiddleware, deletePost);
-router.patch("/:postId/like", authMiddleware, likeOrUnLikeAPost);
+router.patch("/:postId/:action", authMiddleware, likeOrUnLikeAPost);
 
 export default router;
