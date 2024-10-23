@@ -4,7 +4,6 @@ import User from "../models/userModel.js";
 
 // 1. Create user (sign up)
 export const signup = async (req, res) => {
-  console.log("body = " + req.body);
   if (!req.body) return res.status(404).json({ message: "No user data provided" });
 
   const { firstName, lastName, email, password, profilePicture } = req.body;
@@ -20,7 +19,7 @@ export const signup = async (req, res) => {
     await newUser.save();
 
     const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.status(201).json({ user: newUser, token });
+    res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Error signing up user", error });
   }

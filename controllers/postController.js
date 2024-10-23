@@ -96,7 +96,6 @@ export const likeOrUnLikeAPost = async (req, res) => {
       res.status(200).json({ message: "Post unliked successfully", post });
     }
   } catch (error) {
-    console.error("Error liking/unliking the post:", error);
     res.status(500).json({ message: "Error liking/unliking the post", error });
   }
 };

@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests only from this origin
+    origin: ["http://localhost:3000", "https://phanison-social-media-rest-api.onrender.com"], // Allow requests only from this origin
     methods: "GET,POST,PUT,DELETE", // Allow specific HTTP methods
     credentials: true, // Allow cookies to be sent
   })

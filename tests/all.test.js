@@ -134,7 +134,6 @@ describe("Post routes /api/posts/", () => {
       .send({ userId });
 
     expect(res.statusCode).toBe(200);
-    console.log("res.body.post.likes.length = " + res.body.post.likes.length);
     expect(res.body.post.likes.length).toBe(1);
   });
 
@@ -145,7 +144,6 @@ describe("Post routes /api/posts/", () => {
       .send({ userId });
 
     expect(res.statusCode).toBe(200);
-    console.log("res.body.post.likes.length = " + res.body.post.likes.length);
     expect(res.body.post.likes.length).toBe(0);
   });
 
