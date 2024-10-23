@@ -10,8 +10,9 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "test": "jest --detectOpenHandles --verbose",
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js",
+    "test": "jest --detectOpenHandles --verbose"
   },
   "author": "",
   "license": "ISC",

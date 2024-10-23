@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { faker } from "@faker-js/faker";
 import app from "../app";
 import connectDB from "../config/db";
+import User from "../models/userModel";
 
 const firstName = faker.person.firstName();
 const lastName = faker.person.lastName();
@@ -23,6 +24,7 @@ beforeEach(async () => {});
 afterEach(async () => {});
 
 afterAll(async () => {
+  await User.deleteMany();
   await mongoose.connection.close();
 });
 
