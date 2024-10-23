@@ -3,11 +3,19 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./api/users.js";
 import postRoutes from "./api/posts.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow requests only from this origin
+    methods: "GET,POST,PUT,DELETE", // Allow specific HTTP methods
+    credentials: true, // Allow cookies to be sent
+  })
+);
 app.use("/api/auth", userRoutes);
 app.use("/api/posts", postRoutes);
 

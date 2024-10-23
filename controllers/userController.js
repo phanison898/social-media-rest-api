@@ -4,6 +4,9 @@ import User from "../models/userModel.js";
 
 // 1. Create user (sign up)
 export const signup = async (req, res) => {
+  console.log("body = " + req.body);
+  if (!req.body) return res.status(404).json({ message: "No user data provided" });
+
   const { firstName, lastName, email, password, profilePicture } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
